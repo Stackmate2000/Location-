@@ -1,10 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:locationremiender/bottomnav/floating_ActionButton.dart';
-import 'package:locationremiender/homepages/home_pageOne.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:locationremiender/homepages/map_sample.dart';
-import 'package:locationremiender/main.dart';
 import 'package:material_design_icons_flutter/material_design_icons_flutter.dart';
+import 'package:google_fonts/google_fonts.dart';
 
 class BottomNavigation extends StatefulWidget {
   const BottomNavigation({Key? key}) : super(key: key);
