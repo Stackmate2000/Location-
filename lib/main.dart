@@ -1,13 +1,14 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
-import 'package:google_maps_flutter/google_maps_flutter.dart';
-import 'package:locationremiender/startup/pageOne.dart';
-import 'package:locationremiender/startup/pageView_start.dart';
+import 'package:locationremiender/screens/startup/pageView_start.dart';
 
 void main() => runApp(MyApp());
 
-class MyApp extends StatelessWidget {
+class MyApp extends StatefulWidget {
+  @override
+  State<MyApp> createState() => _MyAppState();
+}
+
+class _MyAppState extends State<MyApp> {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
