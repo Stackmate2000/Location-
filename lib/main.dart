@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:locationremiender/screens/startup/pageView_start.dart';
+import 'package:locationremiender/screens/auth/pageView_start.dart';
+import 'package:locationremiender/screens/bottomnav/bottomNav_bar.dart';
+import 'package:locationremiender/screens/homepages/map_sample.dart';
 
 void main() => runApp(MyApp());
 
@@ -14,7 +16,7 @@ class _MyAppState extends State<MyApp> {
     return MaterialApp(
         debugShowCheckedModeBanner: false,
         home: Scaffold(
-          body: PageViewStart(),
+          body: BottomNavBar(),
         ));
   }
 }

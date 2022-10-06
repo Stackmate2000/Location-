@@ -1,8 +1,8 @@
 import 'dart:ui';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:locationremiender/screens/startup/loginMain.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:locationremiender/screens/auth/loginMain.dart';
 
 class PageViewStart extends StatefulWidget {
   const PageViewStart({Key? key}) : super(key: key);

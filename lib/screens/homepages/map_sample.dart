@@ -65,15 +65,6 @@ class MapSampleState extends State<MapSample> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      appBar: AppBar(
-        elevation: 0,
-        backgroundColor: Color(0xff8460eb),
-        title: Icon(
-          CupertinoIcons.tortoise_fill,
-          size: 30,
-          color: Color(0xffFFFFFF),
-        ),
-      ),
       body: StreamBuilder(
         stream: _locStream.stream,
         builder: (context, snapshot) => Stack(
@@ -81,153 +72,141 @@ class MapSampleState extends State<MapSample> {
             GoogleMap(
               initialCameraPosition: initialCameraPosition,
               markers: markers,
-              mapType: MapType.hybrid,
+              mapType: MapType.normal,
               zoomControlsEnabled: false,
               onMapCreated: (GoogleMapController controller) {
                 googleMapController = controller;
               },
             ),
-            Padding(
-              padding: const EdgeInsets.only(top: 15.0),
-              child: Align(
-                alignment: Alignment.topCenter,
-                child: Column(
-                  children: [
-                    Container(
-                      width: MediaQuery.of(context).size.width * 0.9,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(16.0),
-                        ),
-                        color: Color(0xffFFFFFF),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Color(0xff000000).withOpacity(0.1),
-                            blurRadius: 20.0,
-                            spreadRadius: 2.0,
-                            offset: Offset(0.0, 10.0),
-                          ),
-                        ],
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(15.0),
-                        child: Row(
-                          mainAxisAlignment: MainAxisAlignment.center,
-                          children: [
-                            Icon(Icons.stream),
-                            SizedBox(
-                              width: 10.0,
-                            ),
-                            Text(
-                              snapshot.data == null
-                                  ? "Stream location"
-                                  : snapshot.connectionState ==
-                                          ConnectionState.waiting
-                                      ? "Connecting"
-                                      : snapshot.data.toString(),
-                              style: GoogleFonts.montserrat(
-                                  color: Color(0xff000000).withOpacity(0.9),
-                                  fontSize: 14,
-                                  fontWeight: FontWeight.w400),
-                            ),
-                          ],
-                        ),
-                      ),
-                    ),
-                    SizedBox(height: 10.0),
-                    Container(
-                      width: MediaQuery.of(context).size.width * 0.9,
-                      decoration: BoxDecoration(
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(16.0),
-                        ),
-                        color: Color(0xffFFFFFF),
-                        boxShadow: [
-                          BoxShadow(
-                            color: Color(0xff000000).withOpacity(0.1),
-                            blurRadius: 20.0,
-                            spreadRadius: 2.0,
-                            offset: Offset(0.0, 10.0),
-                          ),
-                        ],
-                      ),
-                      child: Padding(
-                        padding: const EdgeInsets.all(15.0),
-                        child: Text(
-                          Address,
-                          style: GoogleFonts.montserrat(
-                              color: Color(0xff000000).withOpacity(0.9),
-                              fontSize: 14,
-                              fontWeight: FontWeight.w400),
-                        ),
-                      ),
-                    ),
-                  ],
+            Align(
+              alignment: Alignment.topCenter,
+              child: Container(
+                width: MediaQuery.of(context).size.width,
+                decoration: BoxDecoration(
+                  color: Color(0xff000000),
                 ),
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(bottom: 15.0),
-              child: Align(
-                alignment: Alignment.bottomCenter,
-                child: GestureDetector(
-                  onTap: () async {
-                    //streamPosition
-                    startLocation();
-
-                    //Distance Caluculator
-                    double distanceInMeters = Geolocator.distanceBetween(
-                        26.7500, 94.2200, 26.9800, 94.6299);
-                    print(distanceInMeters);
-
-                    setState(() {});
-
-                    //geolocator
-                    Position position = await _getGeoLocationPosition();
-                    googleMapController.animateCamera(
-                        CameraUpdate.newCameraPosition(CameraPosition(
-                            target:
-                                LatLng(position.latitude, position.longitude),
-                            zoom: 18,
-                            tilt: 30)));
-
-                    markers.clear();
-                    markers.add(
-                      Marker(
-                        markerId: const MarkerId("currentLocation"),
-                        position: LatLng(position.latitude, position.longitude),
-                      ),
-                    );
-
-                    setState(() {});
-                    //Geocoding
-                    Position pposition = await _getGeoLocationPosition();
-                    var location =
-                        'Lat: ${position.latitude} , Long: ${position.longitude}';
-                    GetAddressFromLatLong(position);
-                  },
-                  child: Container(
-                      alignment: Alignment.center,
-                      height: 55,
-                      width: 55,
-                      decoration: BoxDecoration(
-                        boxShadow: [
-                          BoxShadow(
-                            color: Color(0xff000000).withOpacity(0.4),
-                            blurRadius: 20.0,
-                            spreadRadius: 2.0,
-                            offset: Offset(0.0, 10.0),
+                child: Padding(
+                  padding: const EdgeInsets.only(
+                    left: 15.0,
+                    right: 15.0,
+                    top: 30.0,
+                    bottom: 30.0,
+                  ),
+                  child: SafeArea(
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      children: [
+                        Container(
+                          child: Row(
+                            children: [
+                              Icon(
+                                CupertinoIcons.location,
+                                color: Color(0xffFFFFFF),
+                              ),
+                              SizedBox(
+                                width: 15.0,
+                              ),
+                              Container(
+                                width: MediaQuery.of(context).size.width * 0.8,
+                                child: Text(
+                                  Address,
+                                  style: GoogleFonts.nunito(
+                                      color: Color(0xffFFFFFF),
+                                      fontSize: 14,
+                                      fontWeight: FontWeight.w600),
+                                ),
+                              ),
+                            ],
                           ),
-                        ],
-                        color: Color(0xff8460eb),
-                        borderRadius: BorderRadius.all(
-                          Radius.circular(16.0),
                         ),
-                      ),
-                      child: Icon(
-                        CupertinoIcons.map_pin,
-                        color: Color(0xffFFFFFF),
-                      )),
+                        // SizedBox(height: 10.0),
+                        // Container(
+                        //   child: Row(
+                        //     children: [
+                        //       Icon(
+                        //         CupertinoIcons.location,
+                        //         color: Color(0xffFFFFFF),
+                        //       ),
+                        //       SizedBox(
+                        //         width: 15.0,
+                        //       ),
+                        //       Text(
+                        //         snapshot.data == null
+                        //             ? "Stream location"
+                        //             : snapshot.connectionState ==
+                        //                     ConnectionState.waiting
+                        //                 ? "Connecting"
+                        //                 : snapshot.data.toString(),
+                        //         style: GoogleFonts.nunito(
+                        //             color: Color(0xffFFFFFF).withOpacity(0.9),
+                        //             fontSize: 14,
+                        //             fontWeight: FontWeight.w400),
+                        //       ),
+                        //     ],
+                        //   ),
+                        // ),
+
+                        SizedBox(
+                          height: 15.0,
+                        ),
+
+                        Align(
+                          alignment: Alignment.center,
+                          child: GestureDetector(
+                            onTap: () async {
+                              //streamPosition
+                              // startLocation();
+
+                              //Distance Caluculator
+                              // double distanceInMeters = Geolocator.distanceBetween(
+                              //     26.7500, 94.2200, 26.9800, 94.6299);
+                              // print(distanceInMeters);
+
+                              // setState(() {});
+
+                              //geolocator
+                              Position position =
+                                  await _getGeoLocationPosition();
+                              googleMapController.animateCamera(
+                                  CameraUpdate.newCameraPosition(CameraPosition(
+                                      target: LatLng(position.latitude,
+                                          position.longitude),
+                                      zoom: 18,
+                                      tilt: 30)));
+
+                              markers.clear();
+                              markers.add(
+                                Marker(
+                                  markerId: const MarkerId("currentLocation"),
+                                  position: LatLng(
+                                      position.latitude, position.longitude),
+                                ),
+                              );
+
+                              setState(() {});
+                              //Geocoding
+                              Position pposition =
+                                  await _getGeoLocationPosition();
+                              var location =
+                                  'Lat: ${position.latitude} , Long: ${position.longitude}';
+                              GetAddressFromLatLong(position);
+                            },
+                            child: Container(
+                              alignment: Alignment.center,
+                              width: MediaQuery.of(context).size.width,
+                              child: Text(
+                                "get current location",
+                                style: GoogleFonts.nunito(
+                                    color: Color(0xffFFFFFF),
+                                    fontSize: 14,
+                                    fontWeight: FontWeight.w600),
+                              ),
+                            ),
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
                 ),
               ),
             ),
@@ -235,23 +214,6 @@ class MapSampleState extends State<MapSample> {
         ),
       ),
     );
-  }
-
-  void main() =>
-      print(getDistanceFromLatLonInKm(73.4545, 73.4545, 83.5454, 83.5454));
-
-  double getDistanceFromLatLonInKm(lat1, lon1, lat2, lon2) {
-    var R = 6371; // Radius of the earth in km
-    var dLat = deg2rad(lat2 - lat1); // deg2rad below
-    var dLon = deg2rad(lon2 - lon1);
-    var a = Math.sin(dLat / 2) * Math.sin(dLat / 2) +
-        Math.cos(deg2rad(lat1)) *
-            Math.cos(deg2rad(lat2)) *
-            Math.sin(dLon / 2) *
-            Math.sin(dLon / 2);
-    var c = 2 * Math.atan2(Math.sqrt(a), Math.sqrt(1 - a));
-    var d = R * c; // Distance in km
-    return d;
   }
 
   double deg2rad(deg) {
